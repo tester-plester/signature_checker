@@ -24,6 +24,6 @@ jobs:
 
     - name: Check Docker image signature
       run: |
-        cosign verify ghcr.io/buerokratt/mock-classifier:2dd7ed3d05aed2e6d186c8888777465457b23a9f
+        COSIGN_EXPERIMENTAL=1 cosign verify ghcr.io/buerokratt/mock-classifier:2dd7ed3d05aed2e6d186c8888777465457b23a9f
       env:
         COSIGN_EXPERIMENTAL: "true"
