@@ -1,0 +1,30 @@
+name: Testing image signature 
+
+on:
+  push
+
+jobs:
+  PackageDeploy:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+    - name: Set image tag
+      run: |
+        echo "DOCKER_TAG_SHA=ghcr.io/buerokratt/mock-classifier:2dd7ed3d05aed2e6d186c8888777465457b23a9f " >> $GITHUB_ENV
+
+    - name: Install cosign
+      uses: sigstore/cosign-installer@d6a3abf1bdea83574e28d40543793018b6035605
+      with:
+        cosign-release: 'v1.7.1'
+
+
+    - name: Check Docker image signature
+      run: |
+        cosign verify
+          $DOCKER_TAG_SHA
+      env:
+        COSIGN_EXPERIMENTAL: "true"
